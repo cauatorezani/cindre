@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="CINDRE — Maison de Parfum · Paris. Três extraits de parfum em cristal moldados na sombra vulcânica, matérias-primas naturais e savoir-faire artesanal.">
+  <title>CINDRE — Maison de Parfum · Paris</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23070608'/%3E%3Ctext x='16' y='23' text-anchor='middle' font-family='Georgia,serif' font-size='20' fill='%23f4efe8'%3EC%3C/text%3E%3C/svg%3E">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500&family=Marcellus&family=Plus+Jakarta+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/cindre-hero.css">
+  <link rel="stylesheet" href="assets/styles.css">
+
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://esm.sh/three@0.170.0",
+        "gsap": "https://esm.sh/gsap@3.12.5",
+        "gsap/ScrollTrigger": "https://esm.sh/gsap@3.12.5/ScrollTrigger",
+        "lenis": "https://esm.sh/lenis@1.1.18"
+      }
+    }
+  </script>
+</head>
+<body>
+  <canvas id="glsl-surfaces-canvas" aria-hidden="true"></canvas>
+  <canvas id="glsl-text-canvas" aria-hidden="true"></canvas>
+
+  <!-- Hero CINDRE 100% Intacta (1:1 port) -->
+  <section
+    id="cindre-root"
+    data-tier="2880"
+    data-detail-tier="2880"
+    data-ready="false"
+    data-detail="false"
+    aria-label="CINDRE — Maison de Parfum · Coleção N° 01"
+  >
+    <header id="masthead">
+      <a
+        id="brand-home"
+        href="#top"
+        aria-label="CINDRE — Maison de Parfum, voltar ao início"
+        class="cindre-brand-home"
+      >
+        <span class="cindre-brand-wordmark">CINDRE</span>
+        <small class="cindre-brand-sub">MAISON DE PARFUM</small>
+      </a>
+
+      <nav aria-label="Maison Cindre" class="masthead-nav">
+        <button id="nav-collection" type="button" class="masthead-btn is-active">Coleção</button>
+        <span aria-hidden="true" class="masthead-dot"></span>
+        <button id="nav-notes" type="button" class="masthead-btn">Notas</button>
+        <span aria-hidden="true" class="masthead-dot"></span>
+        <button
+          id="nav-paris"
+          type="button"
+          aria-expanded="false"
+          aria-controls="atelier-popover"
+          class="masthead-btn"
+        >
+          Paris
+        </button>
+      </nav>
+
+      <div class="masthead-edition">
+        <span class="masthead-edition-label">Collection N° 01</span>
+      </div>
+
+      <aside id="atelier-popover" aria-label="Salon Cindre Paris" class="atelier-popover" hidden>
+        <p class="atelier-kicker">Salon Privé · Paris Ier</p>
+        <p class="atelier-address">24 Rue Saint-Honoré, 75001 Paris</p>
+        <p class="atelier-copy">
+          Extraits macerados em pequenos lotes numerados. Degustação olfativa sob hora marcada.
+        </p>
+      </aside>
+    </header>
+
+    <div
+      id="world"
+      aria-label="Três extraits de parfum em nichos de basalto vulcânico sobre lâmina d'água negra"
+    >
+      <div id="wall-layer">
+        <div id="wall-plate" class="optical-plate">
+          <img
+            id="wall"
+            src="./assets/media/wall-2880.webp?v=5"
+            alt="Três frascos de cristal da Maison Cindre iluminados em nichos de rocha vulcânica acima de água negra reflexiva"
+            decoding="async"
+            fetchpriority="high"
+            class="wall-base"
+          >
+
+          <div id="dim-overlay" data-spot="0" aria-hidden="true" class="dim-overlay"></div>
+
+          <img
+            id="spot-0"
+            src="./assets/media/spot-1-2880.webp?v=5"
+            alt=""
+            aria-hidden="true"
+            decoding="async"
+            class="spot-mask"
+          >
+          <img
+            id="spot-1"
+            src="./assets/media/spot-2-2880.webp?v=5"
+            alt=""
+            aria-hidden="true"
+            decoding="async"
+            class="spot-mask"
+          >
+          <img
+            id="spot-2"
+            src="./assets/media/spot-3-2880.webp?v=5"
+            alt=""
+            aria-hidden="true"
+            decoding="async"
+            class="spot-mask"
+          >
+
+          <div id="zones" role="group" aria-label="Selecione um perfume da Coleção N° 01">
+            <button
+              id="zone-0"
+              type="button"
+              data-n="0"
+              aria-label="Ambre Solis, N° 01 — Explorar extrait"
+              class="zone-btn"
+            >
+              <span class="zone-tag">
+                <b class="zone-tag-title">Ambre Solis</b>
+                <i class="zone-tag-meta">N° 01 · Extrait</i>
+              </span>
+            </button>
+
+            <button
+              id="zone-1"
+              type="button"
+              data-n="1"
+              aria-label="Galet Minéral, N° 02 — Explorar extrait"
+              class="zone-btn"
+            >
+              <span class="zone-tag">
+                <b class="zone-tag-title">Galet Minéral</b>
+                <i class="zone-tag-meta">N° 02 · Extrait</i>
+              </span>
+            </button>
+
+            <button
+              id="zone-2"
+              type="button"
+              data-n="2"
+              aria-label="Rubis Volcan, N° 03 — Explorar extrait"
+              class="zone-btn"
+            >
+              <span class="zone-tag">
+                <b class="zone-tag-title">Rubis Volcan</b>
+                <i class="zone-tag-meta">N° 03 · Extrait</i>
+              </span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div id="detail-layer" aria-hidden="true">
+        <div id="detail-plate" class="optical-plate"></div>
+      </div>
+
+      <div aria-hidden="true" class="world-vignette"></div>
+      <div id="shade" aria-hidden="true" class="detail-shade"></div>
+    </div>
+
+    <div aria-hidden="true" class="cindre-hero-bottom-fade"></div>
+
+    <div id="top" class="cindre-hero-overlay">
+      <div aria-labelledby="hero-title" class="cindre-hero-frame">
+        <div class="hero-copy">
+          <p class="hero-kicker">Maison de Parfum · Coleção N° 01</p>
+          <h1 id="hero-title" class="hero-title">
+            A essência da <em id="hero-accent-em" class="editorial-em">noite</em>
+          </h1>
+          <p class="hero-subtitle">
+            Três extraits de parfum em cristal, moldados na sombra vulcânica.
+          </p>
+        </div>
+
+        <p aria-hidden="true" class="hero-hint">
+          <span id="hero-hint-dot" class="hero-hint-dot"></span>
+          <span id="hint-text">Selecione um perfume</span>
+        </p>
+      </div>
+    </div>
+
+    <article id="sheet" aria-live="polite" aria-hidden="true" class="cindre-sheet is-hidden">
+      <p id="s-num" class="sheet-num">N° 01 · Extrait de Parfum</p>
+      <h2 id="s-name" class="sheet-name">Ambre <em class="editorial-em">Solis</em></h2>
+      <p id="s-line" class="sheet-line">
+        Resina de ládano defumada sobre açafrão quente e madeira de oud envelhecida. Denso, dourado, mineral.
+      </p>
+      <dl id="s-notes" class="sheet-notes"></dl>
+      <p class="sheet-price-row">
+        <span id="s-price" class="sheet-price">€ 215</span>
+        <span aria-hidden="true" class="sheet-price-sep"></span>
+        <span id="s-concentration" class="sheet-concentration">Extrait Concentré · 100 ml</span>
+      </p>
+      <div class="sheet-controls">
+        <button id="s-back" type="button" class="sheet-back-btn">
+          <span aria-hidden="true" class="sheet-back-arrow">←</span>
+          <span>Voltar à coleção</span>
+        </button>
+
+        <div role="group" aria-label="Alternar perfume" class="sheet-stepper">
+          <button id="s-prev" type="button" aria-label="Perfume anterior" class="sheet-step-btn">‹</button>
+          <span id="s-pos">01 / 03</span>
+          <button id="s-next" type="button" aria-label="Próximo perfume" class="sheet-step-btn">›</button>
+        </div>
+      </div>
+    </article>
+  </section>
+
+  <!-- Ponte atmosférica contínua entre Hero (#070608) e Atelier (#art-pierre), sem clipping no limite 100vh -->
+  <div class="hero-to-atelier-bridge" aria-hidden="true">
+    <div class="bridge-mist-veil"></div>
+  </div>
+
+  <!-- Seções Editoriais Inferiores CINDRE -->
+  <main class="cindre-lower">
+    <!-- Seção 1: L'art de la pierre et du parfum -->
+    <section id="art-pierre" class="section-art" aria-labelledby="art-pierre-heading">
+      <div class="art-container">
+        <div class="art-copy">
+          <h2 id="art-pierre-heading" class="section-title art-title" data-glsl-text>L'art de la pierre<br>et du parfum</h2>
+          <p class="body-copy" data-glsl-text>A filosofia da maison nasce do encontro entre a força mineral da pedra basáltica e a delicadeza rara da alta perfumaria francesa.</p>
+          <p class="body-copy" data-glsl-text>Cada essência é esculpida com paciência artesanal, revelando acordes profundos que evocam a textura vulcânica e o brilho sutil do basalto.</p>
+          <div class="art-actions">
+            <button type="button" class="btn-pill" data-discover="art-pierre">
+              <span class="btn-label">Découvrir</span>
+              <span class="btn-icon" data-svg-icon="arrow" aria-hidden="true"></span>
+            </button>
+          </div>
+        </div>
+
+        <div class="art-media-col">
+          <figure class="art-media-frame">
+            <img
+              class="art-media-img"
+              src="assets/images/sec1-chisel-oil.png"
+              alt="Espátula metálica esculpindo essência âmbar sobre placa de basalto negro"
+              loading="eager"
+              decoding="async"
+            >
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- Seção 2: Ingrédients Naturels -->
+    <section id="ingredients-naturels" class="section-ingredients" aria-labelledby="ingredients-heading">
+      <div class="ingredients-grid">
+        <!-- Coluna Esquerda -->
+        <div class="ingredients-col ingredients-col--left">
+          <article class="ingredient-block ingredient-block--lead" data-ingredient-block="natural">
+            <h2 id="ingredients-heading" class="section-title ingredients-title" data-glsl-text>Ingrédients Naturels</h2>
+            <p class="ingredient-copy" data-glsl-text>Matérias-primas raras colhidas na origem, selecionadas pela pureza aromática e assinatura sensorial inconfundível.</p>
+            <button type="button" class="btn-pill" data-ingredient-link="natural" data-discover="natural">
+              <span class="btn-label">Découvrir</span>
+              <span class="btn-icon" data-svg-icon="arrow" aria-hidden="true"></span>
+            </button>
+          </article>
+
+          <article class="ingredient-block" data-ingredient-block="rose">
+            <h3 class="ingredient-heading" data-glsl-text>Pétalas de rosa</h3>
+            <p class="ingredient-copy" data-glsl-text>Pétalas colhidas ao amanhecer, trazendo um coração floral aveludado com notas intensas de rosa negra.</p>
+            <button type="button" class="btn-pill" data-ingredient-link="rose" data-discover="rose">
+              <span class="btn-label">Découvrir</span>
+              <span class="btn-icon" data-svg-icon="arrow" aria-hidden="true"></span>
+            </button>
+          </article>
+        </div>
+
+        <!-- Coluna Central: Laje de basalto + 4 objetos botânicos independentes -->
+        <div class="ingredients-center">
+          <div class="slab-stage">
+            <img
+              class="slab-base-img"
+              src="assets/images/sec2-stone-base.png"
+              alt="Laje de basalto negro vulcânico"
+              loading="eager"
+              decoding="async"
+            >
+
+            <button
+              type="button"
+              class="slab-object slab-object--natural"
+              data-ingredient="natural"
+              data-discover="natural"
+              aria-label="Explorar favas de baunilha — Ingrédients Naturels"
+            >
+              <img
+                class="slab-object-img"
+                src="assets/images/sec2-obj-vanilla.png"
+                alt="Favas de baunilha negra sobre basalto"
+                loading="eager"
+                decoding="async"
+              >
+            </button>
+
+            <button
+              type="button"
+              class="slab-object slab-object--rose"
+              data-ingredient="rose"
+              data-discover="rose"
+              aria-label="Explorar pétalas de rosa"
+            >
+              <img
+                class="slab-object-img"
+                src="assets/images/sec2-obj-rose.png"
+                alt="Pétalas de rosa negra aveludadas"
+                loading="eager"
+                decoding="async"
+              >
+            </button>
+
+            <button
+              type="button"
+              class="slab-object slab-object--sandal"
+              data-ingredient="sandal"
+              data-discover="sandal"
+              aria-label="Explorar sândalo de rosa"
+            >
+              <img
+                class="slab-object-img"
+                src="assets/images/sec2-obj-sandal.png"
+                alt="Lascas de sândalo de rosa com folhas verdes"
+                loading="eager"
+                decoding="async"
+              >
+            </button>
+
+            <button
+              type="button"
+              class="slab-object slab-object--incense"
+              data-ingredient="incense"
+              data-discover="incense"
+              aria-label="Explorar resina de incenso natural"
+            >
+              <img
+                class="slab-object-img"
+                src="assets/images/sec2-obj-incense.png"
+                alt="Lágrimas douradas de resina de incenso natural"
+                loading="eager"
+                decoding="async"
+              >
+            </button>
+          </div>
+        </div>
+
+        <!-- Coluna Direita -->
+        <div class="ingredients-col ingredients-col--right">
+          <article class="ingredient-block" data-ingredient-block="sandal">
+            <h3 class="ingredient-heading" data-glsl-text>Sândalo de rosa</h3>
+            <p class="ingredient-copy" data-glsl-text>Madeira nobre de aroma cremoso e envolvente, aquecendo a composição com elegância atemporal.</p>
+            <button type="button" class="btn-pill" data-ingredient-link="sandal" data-discover="sandal">
+              <span class="btn-label">Découvrir</span>
+              <span class="btn-icon" data-svg-icon="arrow" aria-hidden="true"></span>
+            </button>
+          </article>
+
+          <article class="ingredient-block" data-ingredient-block="incense">
+            <h3 class="ingredient-heading" data-glsl-text>Resina de incenso natural</h3>
+            <p class="ingredient-copy" data-glsl-text>Lágrimas douradas de olíbano puro, conferindo um rastro místico, mineral e resinoso à fragrância.</p>
+            <button type="button" class="btn-pill" data-ingredient-link="incense" data-discover="incense">
+              <span class="btn-label">Découvrir</span>
+              <span class="btn-icon" data-svg-icon="arrow" aria-hidden="true"></span>
+            </button>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Seção 3: Le Savoir-faire -->
+    <section id="savoir-faire" class="section-savoir" aria-labelledby="savoir-heading">
+      <div class="savoir-container">
+        <div class="triptych-grid">
+          <figure class="triptych-card">
+            <img
+              class="triptych-img"
+              src="assets/images/sec3-craft-1.png"
+              alt="Destilação artesanal de essências em alambique de vidro"
+              loading="eager"
+              decoding="async"
+            >
+          </figure>
+
+          <figure class="triptych-card">
+            <img
+              class="triptych-img"
+              src="assets/images/sec3-craft-2.png"
+              alt="Dosagem precisa com conta-gotas em frasco de vidro lapidado"
+              loading="eager"
+              decoding="async"
+            >
+          </figure>
+
+          <figure class="triptych-card">
+            <img
+              class="triptych-img"
+              src="assets/images/sec3-craft-3.png"
+              alt="Acabamento manual do frasco numerado pela perfumista"
+              loading="eager"
+              decoding="async"
+            >
+          </figure>
+        </div>
+
+        <div class="savoir-content">
+          <p class="eyebrow" data-glsl-text>O SABER-FAZER</p>
+          <h2 id="savoir-heading" class="section-title savoir-title" data-glsl-text>Le Savoir-faire</h2>
+          <p class="body-copy savoir-copy" data-glsl-text>Cada fragrância é macerada lentamente e envazada à mão em pequenos lotes numerados, unindo alquimia tradicional e precisão contemporânea em small batches.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Seção 4: Trouver votre empreinte -->
+    <section id="trouver-empreinte" class="section-quiz" aria-labelledby="quiz-heading">
+      <div class="quiz-backdrop" aria-hidden="true">
+        <img
+          class="quiz-backdrop-img"
+          src="assets/images/sec4-mist-rock.png"
+          alt=""
+          loading="eager"
+          decoding="async"
+        >
+        <div class="mist-layer mist-layer--back"></div>
+        <div class="mist-layer mist-layer--front"></div>
+        <div class="quiz-vignette"></div>
+      </div>
+
+      <div class="quiz-content">
+        <p class="eyebrow eyebrow--center" data-glsl-text>ENCONTRE SUA ASSINATURA</p>
+        <h2 id="quiz-heading" class="section-title section-title--center quiz-title" data-glsl-text>Trouver votre empreinte</h2>
+        <p class="quiz-subtitle" data-glsl-text>Quel est votre parfum ?</p>
+
+        <div class="quiz-actions">
+          <button type="button" class="quiz-pill" data-quiz-mode="signature" aria-expanded="false" aria-controls="quiz-panel">
+            <span class="btn-label">Quel é meu parfum</span>
+            <span class="btn-icon quiz-pill-icon" data-svg-icon="arrow" aria-hidden="true"></span>
+          </button>
+
+          <button type="button" class="quiz-pill" data-quiz-mode="essence" aria-expanded="false" aria-controls="quiz-panel">
+            <span class="btn-label">Encontre sua essência</span>
+            <span class="btn-icon quiz-pill-icon" data-svg-icon="arrow" aria-hidden="true"></span>
+          </button>
+        </div>
+
+        <aside id="quiz-panel" class="quiz-panel" aria-live="polite" hidden>
+          <div class="quiz-panel-header">
+            <span id="quiz-panel-eyebrow" class="quiz-panel-eyebrow">DIAGNÓSTICO OLFATIVO</span>
+            <button type="button" class="quiz-panel-close" data-quiz-close aria-label="Fechar recomendação olfativa">×</button>
+          </div>
+
+          <div class="quiz-facets" role="tablist" aria-label="Famílias olfativas CINDRE">
+            <button type="button" class="quiz-facet-btn is-selected" data-facet="amber" role="tab" aria-selected="true">Âmbar &amp; Ládano</button>
+            <button type="button" class="quiz-facet-btn" data-facet="mineral" role="tab" aria-selected="false">Basalto &amp; Figo</button>
+            <button type="button" class="quiz-facet-btn" data-facet="volcan" role="tab" aria-selected="false">Cereja &amp; Camurça</button>
+            <button type="button" class="quiz-facet-btn" data-facet="rose" role="tab" aria-selected="false">Rosa Negra</button>
+          </div>
+
+          <div class="quiz-result">
+            <div class="quiz-result-main">
+              <h3 id="quiz-result-name" class="quiz-result-name">Cindre N°01 — Ambre Solis</h3>
+              <p id="quiz-result-desc" class="quiz-result-desc">Resina de ládano defumada sobre açafrão quente e madeira de oud envelhecida. Denso, dourado, mineral.</p>
+            </div>
+            <div class="quiz-result-meta">
+              <span id="quiz-result-notes" class="quiz-result-notes">Notas: Açafrão · Ládano · Oud</span>
+              <span id="quiz-result-concentration" class="quiz-result-concentration">Extrait Concentré · 100 ml · € 215</span>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer CINDRE -->
+  <footer id="cindre-footer" class="cindre-footer">
+    <div class="footer-container">
+      <a href="#cindre-root" class="footer-brand" aria-label="Voltar ao topo — CINDRE Maison de Parfum">
+        <span class="footer-logo" data-glsl-text>CINDRE</span>
+        <span class="footer-tagline" data-glsl-text>MAISON DE PARFUM</span>
+      </a>
+
+      <div class="footer-middle">
+        <nav class="footer-nav" aria-label="Navegação principal do rodapé">
+          <a href="#cindre-root" class="footer-link" data-glsl-text>Collections</a>
+          <a href="#savoir-faire" class="footer-link" data-glsl-text>Notre Histoire</a>
+          <a href="#ingredients-naturels" class="footer-link" data-glsl-text>Boutiques</a>
+          <a href="#trouver-empreinte" class="footer-link" data-glsl-text>Contact</a>
+        </nav>
+
+        <form id="newsletter-form" class="newsletter-form" novalidate>
+          <div class="newsletter-pill">
+            <label class="sr-only" for="newsletter-email">Endereço de e-mail</label>
+            <input
+              id="newsletter-email"
+              name="email"
+              type="email"
+              class="newsletter-input"
+              placeholder="S'abonner"
+              autocomplete="email"
+              required
+            >
+            <button type="submit" class="newsletter-btn">
+              <span class="btn-label">Inscrever-se</span>
+            </button>
+          </div>
+          <p id="newsletter-feedback" class="newsletter-feedback" role="status" aria-live="polite"></p>
+        </form>
+      </div>
+
+      <div class="footer-socials" aria-label="Redes sociais CINDRE">
+        <a href="#cindre-footer" class="social-link" aria-label="Facebook CINDRE" data-svg-icon="social-fb"></a>
+        <a href="#cindre-footer" class="social-link" aria-label="Pinterest CINDRE" data-svg-icon="social-pin"></a>
+        <a href="#cindre-footer" class="social-link" aria-label="Instagram CINDRE" data-svg-icon="social-ig"></a>
+        <a href="#cindre-footer" class="social-link" aria-label="YouTube CINDRE" data-svg-icon="social-yt"></a>
+      </div>
+
+      <div class="footer-bottom">
+        <p class="footer-copyright" data-glsl-text>© copyright 2025 - Cindre. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Modal Editorial Discreto (Découvrir) -->
+  <div id="discover-modal" class="discover-modal" role="dialog" aria-modal="true" aria-labelledby="discover-modal-title" hidden>
+    <div class="discover-backdrop" data-modal-close></div>
+    <div class="discover-dialog" role="document">
+      <div class="discover-header">
+        <span id="discover-modal-kicker" class="discover-kicker">DOSSIÊ CINDRE · PARIS</span>
+        <button type="button" class="discover-close" data-modal-close aria-label="Fechar dossiê">×</button>
+      </div>
+      <div class="discover-ornament" data-svg-icon="basalt-grain" aria-hidden="true"></div>
+      <h3 id="discover-modal-title" class="discover-title">L'art de la pierre et du parfum</h3>
+      <p id="discover-modal-body" class="discover-body"></p>
+      <dl class="discover-specs">
+        <div class="discover-spec">
+          <dt>Origem</dt>
+          <dd id="discover-spec-origin">—</dd>
+        </div>
+        <div class="discover-spec">
+          <dt>Extração</dt>
+          <dd id="discover-spec-method">—</dd>
+        </div>
+        <div class="discover-spec">
+          <dt>Assinatura</dt>
+          <dd id="discover-spec-notes">—</dd>
+        </div>
+      </dl>
+    </div>
+  </div>
+
+  <script type="module" src="assets/app.js"></script>
+</body>
+</html>

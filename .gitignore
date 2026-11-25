@@ -1,0 +1,11 @@
+.maestri/
+review/
+wireframe/
+reference.png
+steps.md
+assets/crops/
+assets/images/hero-basalte-niches.png
+assets/images/sec2-basalt-slab.png
+.DS_Store
+Thumbs.db
+*.log

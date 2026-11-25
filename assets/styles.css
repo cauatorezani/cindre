@@ -1,0 +1,1482 @@
+/* ==========================================================================
+   CINDRE — Maison de Parfum · Paris
+   Design Tokens & Mineral Dark Editorial Architecture (CINDRE + WebGL Surfaces)
+   ========================================================================== */
+
+:root {
+  /* Paleta mineral escura */
+  --bg-obsidian: #09090b;
+  --bg-hero-deep: #070608;
+  --bg-basalt: #111114;
+  --bg-basalt-elevated: #17171b;
+  --surface-glass: rgba(20, 20, 24, 0.56);
+  --surface-pill: rgba(18, 18, 22, 0.44);
+
+  /* Tipografia & Ink */
+  --ink-primary: #e8e4dc;
+  --ink-secondary: #c9c4ba;
+  --ink-muted: #9b9891;
+  --ink-subtle: rgba(232, 228, 220, 0.48);
+
+  /* Acentos */
+  --accent-amber: #c6925c;
+  --accent-amber-soft: rgba(198, 146, 92, 0.28);
+  --accent-amber-glow: rgba(198, 146, 92, 0.46);
+  --accent-silver-glow: rgba(232, 228, 220, 0.22);
+
+  /* Bordas */
+  --border-hairline: rgba(232, 228, 220, 0.14);
+  --border-pill: rgba(232, 228, 220, 0.28);
+  --border-pill-hover: rgba(198, 146, 92, 0.68);
+
+  /* Fontes */
+  --font-wordmark: 'Marcellus', 'Cormorant Garamond', Georgia, serif;
+  --font-display: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+  --font-sans: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+
+  /* Escala & Layout (calibrada para 1440px / 1920px) */
+  --container-max: 1220px;
+  --gutter-x: clamp(24px, 5vw, 76px);
+
+  /* Raios & Transições */
+  --radius-sm: 4px;
+  --radius-md: 10px;
+  --radius-lg: 18px;
+  --radius-pill: 999px;
+  --ease-luxury: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Reset limpo */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  background-color: var(--bg-hero-deep);
+  color: var(--ink-primary);
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background-color: var(--bg-hero-deep);
+  color: var(--ink-primary);
+  overflow-x: hidden;
+  position: relative;
+}
+
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+button,
+input {
+  font: inherit;
+  color: inherit;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+h1,
+h2,
+h3,
+h4,
+p,
+figure,
+dl,
+dd {
+  margin: 0;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ==========================================================================
+   Canvases WebGL (Superfícies Líquidas + Texto Líquido) & .glsl-text-ready
+   ========================================================================== */
+
+#glsl-surfaces-canvas {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 4;
+}
+
+#glsl-text-canvas {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 30;
+}
+
+.glsl-text-ready {
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  caret-color: var(--ink-primary);
+}
+
+.glsl-text-ready::selection {
+  background: rgba(198, 146, 92, 0.35);
+  color: var(--ink-primary);
+  -webkit-text-fill-color: var(--ink-primary);
+}
+
+/* ==========================================================================
+   Superfície Mineral Contínua das Seções Inferiores (.cindre-lower)
+   ========================================================================== */
+
+.cindre-lower {
+  position: relative;
+  z-index: 2;
+  background-color: var(--bg-hero-deep);
+  background-image:
+    linear-gradient(
+      180deg,
+      #070608 0px,
+      #070608 280px,
+      rgba(8, 8, 10, 0.88) 430px,
+      rgba(9, 9, 11, 0.68) 640px,
+      rgba(9, 9, 11, 0.68) 78%,
+      rgba(9, 9, 11, 0.9) 92%,
+      #09090b 100%
+    ),
+    radial-gradient(
+      ellipse 88% 58% at 50% 46%,
+      rgba(9, 9, 11, 0) 38%,
+      rgba(9, 9, 11, 0.54) 100%
+    ),
+    url("images/bg-basalt-texture.png");
+  background-size: 100% 100%, 100% 100%, 760px auto;
+  background-repeat: no-repeat, no-repeat, repeat;
+  background-position: top center, center center, center top;
+  overflow-x: clip;
+  overflow-y: visible;
+}
+
+/* ==========================================================================
+   Ponte Invisível: Hero (#070608) -> Atelier (#art-pierre)
+   Puramente atmosférica e contínua, sem faixas ou bordas horizontais
+   ========================================================================== */
+
+.hero-to-atelier-bridge {
+  position: relative;
+  z-index: 12;
+  width: 100%;
+  height: clamp(200px, 24vh, 280px);
+  margin-top: -120px;
+  margin-bottom: -140px;
+  pointer-events: none;
+  background: linear-gradient(
+    180deg,
+    rgba(7, 6, 8, 0) 0%,
+    rgba(7, 6, 8, 0.92) 42%,
+    #070608 62%,
+    rgba(9, 9, 11, 0) 100%
+  );
+}
+
+.bridge-mist-veil {
+  position: absolute;
+  inset: 0;
+  opacity: 0.14;
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse 52% 38% at 50% 56%,
+    rgba(218, 214, 222, 0.55) 0%,
+    rgba(198, 146, 92, 0.16) 36%,
+    transparent 72%
+  );
+}
+
+/* Tipografia compartilhada */
+.section-title {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(2.35rem, 3.6vw, 3.35rem);
+  line-height: 1.04;
+  letter-spacing: -0.014em;
+  color: var(--ink-primary);
+}
+
+.section-title--center {
+  text-align: center;
+}
+
+.eyebrow {
+  font-family: var(--font-sans);
+  font-weight: 400;
+  font-size: 0.72rem;
+  line-height: 1.4;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+}
+
+.eyebrow--center {
+  text-align: center;
+}
+
+.body-copy {
+  font-family: var(--font-sans);
+  font-weight: 300;
+  font-size: 0.92rem;
+  line-height: 1.72;
+  letter-spacing: 0.006em;
+  color: var(--ink-muted);
+}
+
+/* ==========================================================================
+   Botões Pill (WebGL GLSL em #glsl-surfaces-canvas + texto HTML 100% nítido)
+   ========================================================================== */
+
+.btn-pill,
+.quiz-pill,
+.newsletter-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  cursor: pointer;
+  overflow: hidden;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--border-pill);
+  background: var(--surface-pill);
+  color: var(--ink-primary);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  transition:
+    border-color 0.4s var(--ease-luxury),
+    background-color 0.4s var(--ease-luxury),
+    box-shadow 0.45s var(--ease-luxury);
+}
+
+.btn-pill::before,
+.quiz-pill::before,
+.newsletter-btn::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  background: radial-gradient(
+    140px circle at var(--mx, 50%) var(--my, 50%),
+    rgba(232, 228, 220, 0.2) 0%,
+    rgba(198, 146, 92, 0.16) 44%,
+    transparent 74%
+  );
+  transition: opacity 0.35s var(--ease-luxury);
+}
+
+.btn-pill:hover,
+.btn-pill:focus-visible,
+.quiz-pill:hover,
+.quiz-pill:focus-visible,
+.quiz-pill.is-active,
+.newsletter-btn:hover,
+.newsletter-btn:focus-visible {
+  border-color: var(--border-pill-hover);
+  background: rgba(24, 22, 20, 0.72);
+  box-shadow:
+    0 0 24px rgba(198, 146, 92, 0.16),
+    inset 0 0 14px rgba(198, 146, 92, 0.12);
+  outline: none;
+}
+
+.btn-pill.is-linked {
+  border-color: rgba(244, 239, 232, 0.56);
+  background: rgba(244, 239, 232, 0.05);
+  box-shadow: 0 0 18px rgba(244, 239, 232, 0.09);
+}
+
+.btn-pill:hover::before,
+.btn-pill:focus-visible::before,
+.quiz-pill:hover::before,
+.quiz-pill:focus-visible::before,
+.quiz-pill.is-active::before,
+.newsletter-btn:hover::before,
+.newsletter-btn:focus-visible::before {
+  opacity: 1;
+}
+
+.btn-pill {
+  min-width: 132px;
+  height: 38px;
+  padding: 0 22px;
+  font-size: 0.76rem;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+}
+
+.btn-label {
+  position: relative;
+  z-index: 2;
+  display: inline-block;
+  line-height: 1.2;
+}
+
+.btn-icon {
+  position: relative;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 15px;
+  height: 15px;
+  color: var(--ink-secondary);
+  opacity: 0.78;
+  transition: color 0.35s var(--ease-luxury), opacity 0.35s var(--ease-luxury);
+}
+
+.btn-icon svg {
+  width: 15px;
+  height: 15px;
+  display: block;
+}
+
+.btn-pill:hover .btn-icon,
+.btn-pill.is-linked .btn-icon,
+.quiz-pill:hover .btn-icon,
+.quiz-pill.is-active .btn-icon {
+  color: var(--ink-primary);
+  opacity: 1;
+}
+
+/* ==========================================================================
+   Seção 1: L'art de la pierre et du parfum (#art-pierre)
+   ========================================================================== */
+
+.section-art {
+  position: relative;
+  padding: clamp(72px, 8vw, 128px) 0 clamp(68px, 7.5vw, 118px);
+}
+
+.art-container {
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding-left: clamp(32px, 9.6vw, 138px);
+  padding-right: clamp(0px, 2vw, 24px);
+  display: grid;
+  grid-template-columns: minmax(300px, 0.86fr) minmax(360px, 1.14fr);
+  align-items: center;
+  gap: clamp(36px, 5.5vw, 86px);
+}
+
+.art-copy {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  max-width: 460px;
+}
+
+.art-title {
+  max-width: 100%;
+  font-size: clamp(2.05rem, 3.6vw, 3.35rem);
+  margin-bottom: 28px;
+}
+
+.art-copy .body-copy {
+  max-width: 430px;
+}
+
+.art-copy .body-copy + .body-copy {
+  margin-top: 18px;
+}
+
+.art-actions {
+  margin-top: 32px;
+}
+
+.art-media-col {
+  width: 100%;
+}
+
+/* Sempre 100% visível (opacity: 1), máscara radial orgânica sem borda dura;
+   refração líquida cristalina renderizada por glsl-surfaces.js */
+.art-media-frame {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1152 / 896;
+  overflow: hidden;
+  opacity: 1;
+  will-change: transform;
+  -webkit-mask-image: radial-gradient(
+    ellipse 68% 66% at 50% 50%,
+    #000 40%,
+    rgba(0, 0, 0, 0.7) 66%,
+    transparent 95%
+  );
+  mask-image: radial-gradient(
+    ellipse 68% 66% at 50% 50%,
+    #000 40%,
+    rgba(0, 0, 0, 0.7) 66%,
+    transparent 95%
+  );
+}
+
+.art-media-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 1;
+  transform: scale(1.02);
+  transition: transform 0.85s var(--ease-luxury), filter 0.6s var(--ease-luxury);
+}
+
+.art-media-frame:hover .art-media-img {
+  transform: scale(1.04);
+  filter: brightness(1.04) contrast(1.02);
+}
+
+/* ==========================================================================
+   Seção 2: Ingrédients Naturels (#ingredients-naturels)
+   ========================================================================== */
+
+.section-ingredients {
+  position: relative;
+  padding: clamp(56px, 6.5vw, 102px) var(--gutter-x) clamp(76px, 8vw, 128px);
+}
+
+.ingredients-grid {
+  width: 100%;
+  max-width: 1260px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: minmax(220px, 0.76fr) minmax(360px, 1.48fr) minmax(220px, 0.76fr);
+  align-items: stretch;
+  gap: clamp(20px, 2.8vw, 44px);
+}
+
+.ingredients-col {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 56px;
+}
+
+.ingredients-col--left {
+  padding-top: 24px;
+  padding-bottom: 42px;
+}
+
+.ingredients-col--right {
+  padding-top: 96px;
+  padding-bottom: 34px;
+}
+
+.ingredient-block {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 14px;
+  transition: transform 0.45s var(--ease-luxury);
+}
+
+.ingredient-block.is-linked {
+  transform: translate3d(4px, 0, 0);
+}
+
+.ingredients-title {
+  max-width: 9ch;
+  font-size: clamp(2.25rem, 3.2vw, 3rem);
+}
+
+.ingredient-heading {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(1.38rem, 1.65vw, 1.62rem);
+  line-height: 1.18;
+  letter-spacing: -0.005em;
+  color: var(--ink-primary);
+}
+
+.ingredient-copy {
+  font-family: var(--font-sans);
+  font-weight: 300;
+  font-size: 0.82rem;
+  line-height: 1.65;
+  color: var(--ink-muted);
+  max-width: 265px;
+}
+
+.ingredient-block .btn-pill {
+  margin-top: 6px;
+  min-width: 118px;
+  height: 34px;
+  padding: 0 18px;
+  font-size: 0.72rem;
+}
+
+/* Centro: Laje de basalto vazia + 4 objetos botânicos recortados independentes */
+.ingredients-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.slab-stage {
+  position: relative;
+  width: 100%;
+  max-width: 580px;
+  aspect-ratio: 775 / 910;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  will-change: transform;
+}
+
+.slab-base-img {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 28px 44px rgba(0, 0, 0, 0.85));
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+/* 4 Objetos independentes sobre a pedra — sombra de contato realista + elevação cristalina no hover */
+.slab-object {
+  position: absolute;
+  z-index: 4;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  display: block;
+  transform: translate3d(0, 0, 0) scale(1);
+  filter: drop-shadow(0 10px 14px rgba(0, 0, 0, 0.78));
+  will-change: transform, filter;
+  transition:
+    transform 0.52s var(--ease-luxury),
+    filter 0.46s var(--ease-luxury);
+}
+
+.slab-object:focus-visible {
+  outline: 1px solid rgba(244, 239, 232, 0.58);
+  outline-offset: 6px;
+  border-radius: 6px;
+}
+
+.slab-object-img {
+  display: block;
+  width: 100%;
+  height: auto;
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.slab-object:hover,
+.slab-object:focus-visible,
+.slab-object.is-active {
+  z-index: 8;
+  transform: translate3d(0, -7px, 0) scale(1.055);
+  filter:
+    brightness(1.14)
+    contrast(1.05)
+    drop-shadow(0 18px 24px rgba(0, 0, 0, 0.88))
+    drop-shadow(0 0 10px rgba(244, 239, 232, 0.24));
+}
+
+.slab-object--natural {
+  left: 9%;
+  top: 18%;
+  width: 42%;
+}
+
+.slab-object--rose {
+  left: 27%;
+  top: 48%;
+  width: 31%;
+}
+
+.slab-object--sandal {
+  left: 52%;
+  top: 17%;
+  width: 39%;
+}
+
+.slab-object--incense {
+  left: 57%;
+  top: 57%;
+  width: 32%;
+}
+
+/* ==========================================================================
+   Seção 3: Le Savoir-faire (#savoir-faire)
+   Cards 100% visíveis sempre (opacity: 1), sem overlay amarelado —
+   refração cristalina WebGL renderizada por glsl-surfaces.js
+   ========================================================================== */
+
+.section-savoir {
+  position: relative;
+  padding: clamp(64px, 7.5vw, 118px) var(--gutter-x) clamp(88px, 9.5vw, 146px);
+}
+
+.savoir-container {
+  width: 100%;
+  max-width: 1180px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: minmax(340px, 1.04fr) minmax(300px, 0.96fr);
+  align-items: center;
+  gap: clamp(40px, 6vw, 96px);
+}
+
+.triptych-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(10px, 1.25vw, 18px);
+  align-items: stretch;
+}
+
+.triptych-card {
+  position: relative;
+  aspect-ratio: 0.56;
+  border-radius: 3px;
+  overflow: hidden;
+  opacity: 1;
+  border: 1px solid rgba(232, 228, 220, 0.11);
+  background-color: var(--bg-basalt);
+  box-shadow: 0 22px 48px rgba(0, 0, 0, 0.56);
+  will-change: transform;
+  transition:
+    border-color 0.45s var(--ease-luxury),
+    box-shadow 0.5s var(--ease-luxury);
+}
+
+.triptych-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 3;
+  background: linear-gradient(
+    180deg,
+    rgba(9, 9, 11, 0.36) 0%,
+    rgba(9, 9, 11, 0) 20%,
+    rgba(9, 9, 11, 0) 80%,
+    rgba(9, 9, 11, 0.46) 100%
+  );
+}
+
+.triptych-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 1;
+  transform: scale(1.015);
+  transition: transform 0.8s var(--ease-luxury), filter 0.55s var(--ease-luxury);
+}
+
+.triptych-card:hover {
+  border-color: rgba(232, 228, 220, 0.28);
+  box-shadow: 0 28px 58px rgba(0, 0, 0, 0.72);
+}
+
+.triptych-card:hover .triptych-img {
+  transform: scale(1.045);
+  filter: brightness(1.04) contrast(1.02);
+}
+
+.savoir-content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 14px;
+  max-width: 440px;
+}
+
+.savoir-title {
+  margin-bottom: 8px;
+}
+
+.savoir-copy {
+  max-width: 420px;
+}
+
+/* ==========================================================================
+   Seção 4: Trouver votre empreinte (#trouver-empreinte) — Fusão Sem Corte
+   ========================================================================== */
+
+.section-quiz {
+  position: relative;
+  min-height: clamp(580px, 60vw, 760px);
+  padding: clamp(96px, 10.5vw, 154px) var(--gutter-x) clamp(152px, 15vw, 218px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: transparent;
+}
+
+.quiz-backdrop {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(
+    180deg,
+    transparent 0%,
+    rgba(0, 0, 0, 0.88) 18%,
+    #000 34%,
+    #000 62%,
+    rgba(0, 0, 0, 0.72) 82%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    180deg,
+    transparent 0%,
+    rgba(0, 0, 0, 0.88) 18%,
+    #000 34%,
+    #000 62%,
+    rgba(0, 0, 0, 0.72) 82%,
+    transparent 100%
+  );
+}
+
+.quiz-backdrop-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 58%;
+  opacity: 0.76;
+  filter: contrast(1.04) brightness(0.84);
+}
+
+.mist-layer {
+  position: absolute;
+  inset: -12% -18%;
+  pointer-events: none;
+  will-change: transform, opacity;
+}
+
+.mist-layer--back {
+  background:
+    radial-gradient(ellipse 58% 36% at 24% 64%, rgba(212, 210, 214, 0.2) 0%, transparent 72%),
+    radial-gradient(ellipse 62% 38% at 76% 52%, rgba(196, 194, 200, 0.18) 0%, transparent 72%);
+  filter: blur(26px);
+  animation: mistDriftSlow 26s ease-in-out infinite alternate;
+}
+
+.mist-layer--front {
+  background:
+    radial-gradient(ellipse 70% 34% at 50% 80%, rgba(226, 224, 228, 0.24) 0%, transparent 70%),
+    radial-gradient(ellipse 46% 30% at 18% 44%, rgba(198, 146, 92, 0.08) 0%, transparent 68%);
+  filter: blur(20px);
+  animation: mistDriftReverse 19s ease-in-out infinite alternate;
+}
+
+.quiz-vignette {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse 84% 72% at 50% 48%,
+    transparent 42%,
+    rgba(9, 9, 11, 0.68) 100%
+  );
+}
+
+@keyframes mistDriftSlow {
+  0% {
+    transform: translate3d(-2.5%, 1%, 0) scale(1.02);
+    opacity: 0.65;
+  }
+  100% {
+    transform: translate3d(2.5%, -1.5%, 0) scale(1.07);
+    opacity: 0.92;
+  }
+}
+
+@keyframes mistDriftReverse {
+  0% {
+    transform: translate3d(2%, -1%, 0) scale(1.04);
+    opacity: 0.58;
+  }
+  100% {
+    transform: translate3d(-2.2%, 1.8%, 0) scale(1.01);
+    opacity: 0.85;
+  }
+}
+
+.quiz-content {
+  position: relative;
+  z-index: 4;
+  width: 100%;
+  max-width: 680px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.quiz-title {
+  margin-top: 10px;
+  font-size: clamp(2.5rem, 4.1vw, 3.65rem);
+}
+
+.quiz-subtitle {
+  margin-top: clamp(32px, 4.5vw, 56px);
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(1.72rem, 2.35vw, 2.25rem);
+  line-height: 1.2;
+  color: var(--ink-primary);
+}
+
+.quiz-actions {
+  margin-top: 26px;
+  width: 100%;
+  max-width: 472px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.quiz-pill {
+  width: 100%;
+  height: 46px;
+  padding: 0 46px;
+  font-size: 0.8rem;
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  background: rgba(30, 30, 34, 0.42);
+  border-color: rgba(232, 228, 220, 0.34);
+}
+
+.quiz-pill-icon {
+  position: absolute;
+  right: 18px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+/* Painel discreto de recomendação olfativa */
+.quiz-panel {
+  margin-top: 26px;
+  width: 100%;
+  max-width: 560px;
+  padding: 24px 26px;
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(198, 146, 92, 0.28);
+  background: rgba(14, 14, 17, 0.84);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.68);
+  text-align: left;
+  animation: panelFadeIn 0.4s var(--ease-luxury) both;
+}
+
+.quiz-panel[hidden] {
+  display: none;
+}
+
+@keyframes panelFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.quiz-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.quiz-panel-eyebrow {
+  font-size: 0.68rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--accent-amber);
+}
+
+.quiz-panel-close {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 1px solid var(--border-hairline);
+  background: transparent;
+  color: var(--ink-secondary);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  line-height: 1;
+  transition: border-color 0.3s var(--ease-luxury), color 0.3s var(--ease-luxury);
+}
+
+.quiz-panel-close:hover,
+.quiz-panel-close:focus-visible {
+  border-color: var(--accent-amber);
+  color: var(--ink-primary);
+  outline: none;
+}
+
+.quiz-facets {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 18px;
+}
+
+.quiz-facet-btn {
+  padding: 6px 13px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--border-hairline);
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--ink-muted);
+  font-size: 0.74rem;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  transition:
+    border-color 0.3s var(--ease-luxury),
+    color 0.3s var(--ease-luxury),
+    background-color 0.3s var(--ease-luxury);
+}
+
+.quiz-facet-btn:hover,
+.quiz-facet-btn:focus-visible {
+  border-color: rgba(198, 146, 92, 0.45);
+  color: var(--ink-primary);
+  outline: none;
+}
+
+.quiz-facet-btn.is-selected {
+  border-color: var(--accent-amber);
+  background: rgba(198, 146, 92, 0.14);
+  color: var(--ink-primary);
+}
+
+.quiz-result-name {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 1.48rem;
+  line-height: 1.2;
+  color: var(--ink-primary);
+}
+
+.quiz-result-desc {
+  margin-top: 8px;
+  font-size: 0.84rem;
+  font-weight: 300;
+  line-height: 1.62;
+  color: var(--ink-muted);
+}
+
+.quiz-result-meta {
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border-hairline);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 8px 16px;
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  color: var(--ink-secondary);
+}
+
+.quiz-result-concentration {
+  color: var(--accent-amber);
+}
+
+/* ==========================================================================
+   Footer CINDRE (#cindre-footer) — Fusão 100% Contínua & Alinhamento Exato
+   ========================================================================== */
+
+.cindre-footer {
+  position: relative;
+  z-index: 3;
+  margin-top: -96px;
+  padding: 156px var(--gutter-x) clamp(32px, 3.8vw, 48px);
+  background: linear-gradient(
+    180deg,
+    rgba(9, 9, 11, 0) 0%,
+    rgba(9, 9, 11, 0.88) 16%,
+    #09090b 38%
+  );
+  overflow: hidden;
+}
+
+.cindre-footer::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.24;
+  background-image: url("images/bg-basalt-texture.png");
+  background-size: 760px auto;
+  background-repeat: repeat;
+  background-position: center bottom;
+  -webkit-mask-image: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.45) 38%, #000 72%);
+  mask-image: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.45) 38%, #000 72%);
+}
+
+.footer-container {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 1080px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.footer-brand {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  text-align: center;
+}
+
+.footer-logo {
+  display: inline-block;
+  font-family: var(--font-wordmark);
+  font-weight: 400;
+  font-size: clamp(1.55rem, 2.2vw, 2.05rem);
+  letter-spacing: 0.34em;
+  text-indent: 0.34em;
+  color: var(--ink-primary);
+}
+
+.footer-tagline {
+  display: inline-block;
+  font-family: var(--font-sans);
+  font-weight: 400;
+  font-size: 0.64rem;
+  letter-spacing: 0.34em;
+  text-indent: 0.34em;
+  color: var(--ink-muted);
+}
+
+.footer-middle {
+  width: 100%;
+  margin-top: clamp(36px, 4vw, 52px);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 24px clamp(32px, 4.5vw, 64px);
+}
+
+.footer-nav {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 16px clamp(24px, 3vw, 44px);
+}
+
+.footer-link {
+  display: inline-block;
+  font-family: var(--font-sans);
+  font-weight: 400;
+  font-size: 0.84rem;
+  line-height: 1.2;
+  letter-spacing: 0.02em;
+  color: var(--ink-secondary);
+  padding: 4px 0;
+  transition: opacity 0.3s var(--ease-luxury);
+}
+
+.footer-link:hover,
+.footer-link:focus-visible {
+  opacity: 0.78;
+  outline: none;
+}
+
+/* Alinhamento vertical rigoroso: feedback fora do fluxo via position: absolute */
+.newsletter-form {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: min(100%, 376px);
+}
+
+.newsletter-pill {
+  width: 100%;
+  height: 44px;
+  padding: 4px 4px 4px 18px;
+  border-radius: var(--radius-pill);
+  border: 1px solid rgba(232, 228, 220, 0.24);
+  background: rgba(14, 14, 17, 0.62);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: border-color 0.35s var(--ease-luxury), box-shadow 0.35s var(--ease-luxury);
+}
+
+.newsletter-pill:focus-within {
+  border-color: rgba(198, 146, 92, 0.58);
+  box-shadow: 0 0 20px rgba(198, 146, 92, 0.14);
+}
+
+.newsletter-input {
+  flex: 1 1 auto;
+  min-width: 0;
+  border: 0;
+  background: transparent;
+  color: var(--ink-primary);
+  font-size: 0.8rem;
+  font-weight: 300;
+  outline: none;
+}
+
+.newsletter-input::placeholder {
+  color: var(--ink-muted);
+}
+
+.newsletter-btn {
+  flex: 0 0 auto;
+  height: 34px;
+  padding: 0 18px;
+  font-size: 0.76rem;
+  font-weight: 400;
+  letter-spacing: 0.03em;
+  border-color: rgba(232, 228, 220, 0.18);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.newsletter-feedback {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  right: 0;
+  margin-top: 0;
+  min-height: 1.2em;
+  font-size: 0.74rem;
+  color: var(--accent-amber);
+  text-align: center;
+  pointer-events: none;
+}
+
+.newsletter-feedback.is-error {
+  color: #d98276;
+}
+
+.footer-socials {
+  margin-top: clamp(36px, 3.6vw, 48px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+}
+
+.social-link {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 1px solid rgba(232, 228, 220, 0.16);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--ink-secondary);
+  background: rgba(255, 255, 255, 0.02);
+  transition:
+    border-color 0.35s var(--ease-luxury),
+    color 0.35s var(--ease-luxury),
+    transform 0.35s var(--ease-luxury),
+    box-shadow 0.35s var(--ease-luxury);
+}
+
+.social-link svg {
+  width: 16px;
+  height: 16px;
+}
+
+.social-link:hover,
+.social-link:focus-visible {
+  color: var(--accent-amber);
+  border-color: rgba(198, 146, 92, 0.56);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 18px rgba(198, 146, 92, 0.14);
+  outline: none;
+}
+
+.footer-bottom {
+  width: 100%;
+  margin-top: clamp(28px, 3vw, 38px);
+  padding-top: 22px;
+  border-top: 1px solid rgba(232, 228, 220, 0.08);
+  text-align: center;
+}
+
+.footer-copyright {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 300;
+  letter-spacing: 0.04em;
+  color: var(--ink-subtle);
+}
+
+/* ==========================================================================
+   Modal Editorial Discreto (Découvrir)
+   ========================================================================== */
+
+.discover-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 65;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.discover-modal[hidden] {
+  display: none;
+}
+
+.discover-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(5, 5, 7, 0.78);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  animation: modalFade 0.3s ease-out both;
+}
+
+.discover-dialog {
+  position: relative;
+  z-index: 2;
+  width: min(100%, 540px);
+  padding: 34px 36px 32px;
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(198, 146, 92, 0.28);
+  background:
+    radial-gradient(ellipse 90% 60% at 50% 0%, rgba(198, 146, 92, 0.1) 0%, transparent 65%),
+    var(--bg-basalt);
+  box-shadow: 0 36px 96px rgba(0, 0, 0, 0.82);
+  animation: panelFadeIn 0.38s var(--ease-luxury) both;
+}
+
+@keyframes modalFade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.discover-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.discover-kicker {
+  font-size: 0.68rem;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: var(--accent-amber);
+}
+
+.discover-close {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1px solid var(--border-hairline);
+  background: transparent;
+  color: var(--ink-secondary);
+  font-size: 1.2rem;
+  line-height: 1;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color 0.3s var(--ease-luxury), color 0.3s var(--ease-luxury);
+}
+
+.discover-close:hover,
+.discover-close:focus-visible {
+  border-color: var(--accent-amber);
+  color: var(--ink-primary);
+  outline: none;
+}
+
+.discover-ornament {
+  margin-top: 14px;
+  color: rgba(198, 146, 92, 0.45);
+}
+
+.discover-title {
+  margin-top: 14px;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 2rem;
+  line-height: 1.12;
+  color: var(--ink-primary);
+}
+
+.discover-body {
+  margin-top: 14px;
+  font-size: 0.88rem;
+  font-weight: 300;
+  line-height: 1.72;
+  color: var(--ink-muted);
+}
+
+.discover-specs {
+  margin-top: 24px;
+  padding-top: 18px;
+  border-top: 1px solid var(--border-hairline);
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.discover-spec dt {
+  font-size: 0.66rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ink-subtle);
+}
+
+.discover-spec dd {
+  margin-top: 6px;
+  font-size: 0.8rem;
+  color: var(--ink-secondary);
+}
+
+/* ==========================================================================
+   Responsividade (Tablet & Mobile)
+   ========================================================================== */
+
+@media (max-width: 1080px) {
+  .art-container {
+    padding-left: var(--gutter-x);
+    padding-right: var(--gutter-x);
+    grid-template-columns: 1fr 1.05fr;
+  }
+
+  .ingredients-grid {
+    grid-template-columns: 1fr 1.25fr 1fr;
+  }
+
+  .savoir-container {
+    grid-template-columns: 1fr 0.9fr;
+  }
+}
+
+@media (max-width: 860px) {
+  .art-container,
+  .savoir-container {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .art-copy,
+  .savoir-content {
+    max-width: 100%;
+  }
+
+  .ingredients-grid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .ingredients-center {
+    order: -1;
+  }
+
+  .ingredients-col--left,
+  .ingredients-col--right {
+    padding-top: 0;
+    padding-bottom: 0;
+    gap: 32px;
+  }
+
+  .slab-stage {
+    max-width: 420px;
+  }
+
+  .discover-specs {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 540px) {
+  .triptych-grid {
+    gap: 8px;
+  }
+
+  .quiz-pill {
+    padding: 0 40px 0 20px;
+  }
+
+  .discover-dialog {
+    padding: 26px 22px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mist-layer--back,
+  .mist-layer--front {
+    animation: none;
+  }
+
+  .btn-pill,
+  .quiz-pill,
+  .newsletter-btn,
+  .art-media-img,
+  .triptych-img,
+  .slab-object {
+    transition: none;
+  }
+}
